@@ -105,9 +105,8 @@ const showCategoryDetails = (news_id) => {
       .then((data) => categoryDetails(data.data[0]))
       .catch((error) => console.log(error));
   };
-  
-  const categoryDetails = (details) => {
-    console.log(details);
+
+    const categoryDetails = (details) => {
     const title = document.getElementById("exampleModalLabel");
     title.innerText = details.title;
     const modal = document.getElementById("modal-img");
