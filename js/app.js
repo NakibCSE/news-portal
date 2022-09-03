@@ -95,3 +95,44 @@ const showCategoryNews = (categoryNews, name) => {
     const spinnerSection = document.getElementById("spinner");
     spinnerSection.classList.add("d-none");
   };
+
+
+  // Load category details with modal
+const showCategoryDetails = (news_id) => {
+    const url = `https://openapi.programming-hero.com/api/news/${news_id}`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => categoryDetails(data.data[0]))
+      .catch((error) => console.log(error));
+  };
+  
+  const categoryDetails = (details) => {
+    console.log(details);
+    const title = document.getElementById("exampleModalLabel");
+    title.innerText = details.title;
+    const modal = document.getElementById("modal-img");
+    modal.innerHTML = `
+    <img src="${details.thumbnail_url}" alt="">
+    `;
+    const modalDetails = document.getElementById("modal-details");
+    modalDetails.innerText = details.details.slice(0, 200) + "...";
+    const modalAuthor = document.getElementById("modal-author");
+    if (details.author.name === null) {
+      modalAuthor.innerText = "No author";
+    } else {
+      modalAuthor.innerText = "Author:" + " " + details.author.name;
+    }
+    const modalViews = document.getElementById("modal-views");
+    if (details.total_view === null) {
+      modalViews.innerText = "No views";
+    } else {
+      modalViews.innerText = "Total View:" + " " + details.total_view;
+    }
+    if (details.author.published_date === null) {
+      document.getElementById("date").innerText = "No date found";
+    } else {
+      document.getElementById("date").innerText = details.author.published_date;
+    }
+  };
+  
+  loadCategory();
