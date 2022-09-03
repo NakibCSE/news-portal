@@ -33,3 +33,65 @@ const categoryNewsLoad = (category_id, name) => {
       .then((data) => showCategoryNews(data.data, name))
       .catch((error) => console.log(error));
   };
+
+  // showing categories news details for
+const showCategoryNews = (categoryNews, name) => {
+    const categoryNumber = document.getElementById("category-number");
+    categoryNumber.innerHTML = `<h2 class="text-center">Total ${categoryNews.length} news found in ${name}</h2>`;
+    const card = document.getElementById("category-news");
+    const notFound = document.getElementById("not-found");
+    card.innerHTML = "";
+    if (categoryNews.length === 0) {
+      notFound.innerHTML = `
+      <h2 class="text-center text-warning">No News found here !! search another </h2>`;
+    }
+  
+    categoryNews.forEach((news) => {
+      notFound.innerHTML = "";
+      const cardDiv = document.createElement("div");
+      cardDiv.classList.add("col");
+      console.log(news);
+      cardDiv.innerHTML = `
+      <div class="card mb-3">
+      <div class="row g-0">
+          <div class="col-sm-12 text-center col-md-5">
+              <img src="${news.thumbnail_url}" class="w-100 h-100" alt="...">
+          </div>
+          <div class="col-sm-12 col-md-7">
+              <div class="card-body">
+                  <h5 class="card-title">${news.title}</h5>
+                  <p class="card-text">${news.details.slice(0, 120)}....</p>
+                  <div class="author-img d-flex">
+                  <img src="${news.author.img}" class="rounded-circle" alt="">
+                  <div>
+                  <p class="ms-3">${
+                    news.author.name === null
+                      ? "No Author found"
+                      : news.author.name
+                  }</p>
+                
+                  <p class="ms-3">${
+                    news.author.published_date === null
+                      ? "No date"
+                      : news.author.published_date
+                  }</p>
+                  </div>
+                  </div>
+                    
+                    <p>Total view : ${
+                      news.total_view === null ? "No views " : news.total_view
+                    }</p>
+                 
+                  <button id="show-details" onclick="showCategoryDetails('${
+                    news._id
+                  }')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Show News Details</button>
+              </div>
+          </div>
+      </div>
+  </div>
+      `;
+      card.appendChild(cardDiv);
+    });
+    const spinnerSection = document.getElementById("spinner");
+    spinnerSection.classList.add("d-none");
+  };
