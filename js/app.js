@@ -45,12 +45,13 @@ const showCategoryNews = (categoryNews, name) => {
       notFound.innerHTML = `
       <h2 class="text-center text-warning">No News found here !! search another </h2>`;
     }
-  
-    categoryNews.forEach((news) => {
+   
+    //   sorting the array with total viewers
+      const sort = categoryNews.sort((a, b) => b.total_view - a.total_view);
+      sort.forEach((news) => {
       notFound.innerHTML = "";
       const cardDiv = document.createElement("div");
       cardDiv.classList.add("col");
-      console.log(news);
       cardDiv.innerHTML = `
       <div class="card mb-3">
       <div class="row g-0">
@@ -106,7 +107,7 @@ const showCategoryDetails = (news_id) => {
       .catch((error) => console.log(error));
   };
 
-    const categoryDetails = (details) => {
+  const categoryDetails = (details) => {
     const title = document.getElementById("exampleModalLabel");
     title.innerText = details.title;
     const modal = document.getElementById("modal-img");
